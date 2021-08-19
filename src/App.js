@@ -1,23 +1,59 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import { useState } from "react";
+import {
+  Label,
+  Container,
+  InputWrapper,
+  RadioGroup,
+  MessageContentItem,
+} from "./components";
+import { downloadJava } from "./utils/javaFileGenerator";
 
 function App() {
+  const [taskOwner, setTaskOwner] = useState();
+  const [taskCode, setTaskCode] = useState("CVOR-");
+  const [namespace, setNamespace] = useState("");
+  const [messages, setMessages] = useState([]);
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Migration Generator</h1>
+      <div>
+        <Container>
+          <InputWrapper
+            relatesTo="taskOwner"
+            labelContent="Task Owner (user code)"
+            value={taskOwner}
+            onChange={(e) => setTaskOwner(e.target.value)}
+          />
+          <InputWrapper
+            relatesTo="taskcode"
+            labelContent="Task Code"
+            value={taskCode}
+            onChange={(e) => setTaskCode(e.target.value)}
+          />
+        </Container>
+        <Label relatesTo="namespace">Select your Namespace</Label>
+        <Container>
+          <RadioGroup
+            belongsTo="namespace"
+            data={["aps", "crm", "csm", "dim", "dm", "general", "iam", "wos"]}
+            setNamespace={setNamespace}
+          />
+        </Container>
+        <Container>
+          <MessageContentItem
+            onConfirm={(data) => setMessages([...messages, data])}
+          />
+        </Container>
+        <Container>
+          <button onClick={() => downloadJava(taskOwner, taskCode, namespace)}>
+            Download Java File
+          </button>
+          <button onClick={() => console.log(taskCode, namespace, messages)}>
+            Download JSON File
+          </button>
+        </Container>
+      </div>
     </div>
   );
 }
