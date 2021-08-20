@@ -41,12 +41,14 @@
   margin: 12px 0;
 }
 
-.confirmButton {
-  background-color: #81b622;
-  color: white;
-  font-weight: bold;
-  padding: 12px;
-  border-radius: 100px;
-  border: none;
-  cursor: pointer;
+.messageWrapper {
+  border: 1px dashed #000;
+  padding: 8px;
+  margin: 8px 8px 8px 0;
+  width: 40%;
+}
+
+.messageWrapper > p {
+  margin: 0;
+  margin-bottom: 4px;
 }
