@@ -59,9 +59,7 @@ export const MessageContentItem = ({ onConfirm }) => {
         value={messageContent.en}
         longerInput
       />
-      <button onClick={formatContentToPayload} className="confirmButton">
-        Confirm
-      </button>
+      <button onClick={formatContentToPayload}>Confirm</button>
     </Container>
   );
 };

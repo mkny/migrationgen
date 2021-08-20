@@ -6,8 +6,10 @@ import {
   InputWrapper,
   RadioGroup,
   MessageContentItem,
+  MessageDisplay,
 } from "./components";
 import { downloadJava } from "./utils/javaFileGenerator";
+import { downloadJSON } from "./utils/jsonFileGenerator";
 
 function App() {
   const [taskOwner, setTaskOwner] = useState();
@@ -46,10 +48,13 @@ function App() {
           />
         </Container>
         <Container>
+          <MessageDisplay messages={messages} />
+        </Container>
+        <Container>
           <button onClick={() => downloadJava(taskOwner, taskCode, namespace)}>
             Download Java File
           </button>
-          <button onClick={() => console.log(taskCode, namespace, messages)}>
+          <button onClick={() => downloadJSON(taskCode, messages, namespace)}>
             Download JSON File
           </button>
         </Container>

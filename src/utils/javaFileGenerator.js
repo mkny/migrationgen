@@ -1,14 +1,19 @@
-function removeTaskCodeSymbol(taskCode) {
-  return taskCode.replace("-", "");
-}
+import { saveAs } from "file-saver";
+import { removeTaskCodeSymbol, formatFileName } from "./shared";
 
-function formatFileName(taskCode) {
-  return `${removeTaskCodeSymbol(taskCode)}.java`;
+function defineMessageMethod(namespace) {
+  console.log(namespace);
+  if (namespace === "general") {
+    return "DM";
+  }
+  if (namespace === "iam") {
+    return "CRM";
+  }
+  return namespace.toUpperCase();
 }
 
 function formatDataToJava(owner, taskCode, namespace) {
-  return `
-    package com.cvortex.message.migration.changesets.${namespace};
+  return `package com.cvortex.message.migration.changesets.${namespace};
 
 import com.cvortex.message.migration.changesets.BaseChangeLog;
 import com.cvortex.message.service.MessageService;
@@ -22,9 +27,17 @@ public class ${removeTaskCodeSymbol(taskCode)} extends BaseChangeLog {
     @ChangeSet(id = "${namespace.toUpperCase()}-${removeTaskCodeSymbol(
     taskCode
   )}", order = "001", author = "${owner}")
-    public void create${namespace.toUpperCase()}Messages(MessageService messageService) throws IOException {
+    public void create${defineMessageMethod(
+      namespace
+    )}Messages(MessageService messageService) throws IOException {
         execute(messageService);
     }
+}`;
 }
-`;
+
+export function downloadJava(owner, taskCode, namespace) {
+  var blob = new Blob([formatDataToJava(owner, taskCode, namespace)], {
+    type: "text/plain;charset=utf-8",
+  });
+  saveAs(blob, `${formatFileName(taskCode, "java")}`);
 }
