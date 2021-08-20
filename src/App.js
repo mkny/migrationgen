@@ -10,12 +10,14 @@ import {
 } from "./components";
 import { downloadJava } from "./utils/javaFileGenerator";
 import { downloadJSON } from "./utils/jsonFileGenerator";
+import { useMessageContext, withMessageProvider } from "./components/MessageProvider";
 
 function App() {
   const [taskOwner, setTaskOwner] = useState();
   const [taskCode, setTaskCode] = useState("CVOR-");
   const [namespace, setNamespace] = useState("");
-  const [messages, setMessages] = useState([]);
+  const { handleAddMessage, messages } = useMessageContext();
+
   return (
     <div className="App">
       <h1>Migration Generator</h1>
@@ -44,7 +46,7 @@ function App() {
         </Container>
         <Container>
           <MessageContentItem
-            onConfirm={(data) => setMessages([...messages, data])}
+            onConfirm={handleAddMessage}
           />
         </Container>
         <Container>
@@ -63,4 +65,4 @@ function App() {
   );
 }
 
-export default App;
+export default withMessageProvider(App);

@@ -1,6 +1,9 @@
 import React from "react";
+import { useMessageContext } from "./MessageProvider";
 
 export const Message = ({ code, englishContent, portugueseContent }) => {
+  const { handleRemoveMessage } = useMessageContext();
+  
   return (
     <div className="messageWrapper">
       <p>
@@ -15,6 +18,7 @@ export const Message = ({ code, englishContent, portugueseContent }) => {
         <strong>PT: </strong>
         {portugueseContent}
       </p>
+      <button onClick={() => handleRemoveMessage(code)}>Remove</button>
     </div>
   );
 };
